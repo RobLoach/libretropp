@@ -1,0 +1,3 @@
+[submodule "vendor/noarch"]
+	path = vendor/noarch
+	url = https://github.com/RobLoach/noarch.git

@@ -1,0 +1,10 @@
+*.o
+*.so
+*.state*
+node_modules
+*.srm.*
+*.srm1.*
+/package.json
+/.bsv
+/*.mkv
+*.d
