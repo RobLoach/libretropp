@@ -11,3 +11,6 @@ vendor/noarch/noarch: vendor/noarch/README.md
 
 test: vendor/noarch/noarch all
 	vendor/noarch/noarch examples/helloworld/helloworld_libretro.so README.md
+
+clean:
+	make --directory=examples/helloworld clean

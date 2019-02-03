@@ -1,7 +1,18 @@
 #include "libretro.hpp"
 
-class HelloWorld : public libretropp::Libretro {
-	void init() {
-		std::cout << "HelloWorld::INIT!!!!" << std::endl;
+using libretropp::Libretro;
+
+class HelloWorld : public Libretro {
+	void deinit() {
+		std::cout << "HelloWorld::DEINIT!!!!" << std::endl;
 	}
-} hello;
+
+	void reset() {
+		std::cout << "Reset()" << std::endl;
+	}
+};
+
+void retro_init(void) {
+	std::cout << "retro_init() " << std::endl;
+	Libretro::init(new HelloWorld());
+}
