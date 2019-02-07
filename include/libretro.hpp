@@ -32,69 +32,36 @@
 namespace libretropp {
 	class Libretro {
 	public:
-		Libretro() {
-			info.library_name = "libretropp";
-			info.library_version  = "0.0.1";
-			info.need_fullpath = false;
-			info.valid_extensions = "chai|chailove";
-			info.block_extract = true;
-		}
 
 		virtual void deinit() {
 			std::cout << "Libretro::deinit() called" << std::endl;
 		}
 
-		virtual int getWidth() {
-			return 640;
+		void setWidth(int width) {
+			m_width = width;
 		}
 
-		virtual int getHeight() {
-			return 480;
+		void setHeight(int height) {
+			m_height = height;
+		}
+
+		int getWidth() {
+			return m_width;
+		}
+
+		int getHeight() {
+			return m_height;
 		}
 
 		virtual void reset() {
 			// Nothing.
 		}
 
-		virtual void setNeedFullPath(bool fullpath) {
-			info.need_fullpath = fullpath;
-		}
-
-		virtual std::string getVersion() {
-			return std::string(info.library_version);
-		}
-
-		virtual std::string getExtensions() {
-			return std::string(info.valid_extensions);
-		}
-
-		virtual std::string getName() {
-			return std::string(info.library_name);
-		}
-
-		virtual bool getBlockExtract() {
-			return info.block_extract;
-		}
-
-		virtual bool getNeedFullPath() {
-			return info.need_fullpath;
-		}
-
-		virtual std::string getVersion() {
-			return std::string(info.library_version);
-		}
-
-		virtual std::string getExtensions() {
-			return std::string(info.valid_extensions);
-		}
-
-		virtual std::string getName() {
-			return std::string(info.library_name);
-		}
-
-		virtual bool getBlockExtract() {
-			return false;
-		}
+		std::string name = "libretropp";
+		std::string extensions = "txt";
+		std::string version;
+		bool needFullPath;
+		bool blockExtract;
 
 		static Libretro* get() {
 			return m_instance;
@@ -106,7 +73,9 @@ namespace libretropp {
 
 		static Libretro* m_instance;
 
-		retro_system_info info;
+	private:
+		int m_width;
+		int m_height;
 	};
 }
 
@@ -130,9 +99,9 @@ unsigned retro_api_version(void) {
  * libretro callback; Retrieve information about the core.
  */
 void retro_get_system_info(struct retro_system_info *info) {
-	memset(info, 0, sizeof(*info));
 	libretropp::Libretro* lib = libretropp::Libretro::get();
 	if (lib != NULL) {
+		memset(info, 0, sizeof(*info));
 		info->library_name = "libretropp";
 		info->library_version  = "0.0.1";
 		info->need_fullpath = false;
@@ -140,11 +109,13 @@ void retro_get_system_info(struct retro_system_info *info) {
 		info->block_extract = true;
 	}
 	else {
-		info->library_name = "libretropp";
-		info->library_version  = "0.0.1";
-		info->need_fullpath = false;
-		info->valid_extensions = "chai|chailove";
-		info->block_extract = true;
+		memset(info, 0, sizeof(*info));
+		libretropp::Libretro* lib = libretropp::Libretro::get();
+		info->library_name = lib->name.c_str();
+		info->library_version  = lib->version.c_str();
+		info->need_fullpath = lib->needFullPath;
+		info->valid_extensions = lib->extensions.c_str();
+		info->block_extract = lib->blockExtract;
 	}
 }
 

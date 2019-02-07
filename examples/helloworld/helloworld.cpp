@@ -3,6 +3,10 @@
 using libretropp::Libretro;
 
 class HelloWorld : public Libretro {
+public:
+	HelloWorld() {
+	}
+
 	void deinit() {
 		std::cout << "HelloWorld::DEINIT!!!!" << std::endl;
 	}
